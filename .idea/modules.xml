@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/print_plugin/print_plugin.iml" filepath="$PROJECT_DIR$/print_plugin/print_plugin.iml" />
-      <module fileurl="file://$PROJECT_DIR$/print_plugin/android/print_plugin_android.iml" filepath="$PROJECT_DIR$/print_plugin/android/print_plugin_android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/print_plugin.iml" filepath="$PROJECT_DIR$/print_plugin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/android/print_plugin_android.iml" filepath="$PROJECT_DIR$/android/print_plugin_android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/example/android/print_plugin_example_android.iml" filepath="$PROJECT_DIR$/example/android/print_plugin_example_android.iml" />
     </modules>
   </component>
 </project>

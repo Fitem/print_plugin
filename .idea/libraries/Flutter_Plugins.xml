@@ -1,7 +1,7 @@
 <component name="libraryTable">
   <library name="Flutter Plugins" type="FlutterPluginsLibraryType">
     <CLASSES>
-      <root url="file://$PROJECT_DIR$/print_plugin" />
+      <root url="file://$PROJECT_DIR$" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

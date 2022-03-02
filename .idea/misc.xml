@@ -3,15 +3,5 @@
   <component name="FrameworkDetectionExcludesConfiguration">
     <type id="android" />
   </component>
-  <component name="MarkdownNavigator.ProfileManager" plain-text-search-scope="Project Files" />
-  <component name="ProjectRootManager" version="2" project-jdk-name="Android API 22 Platform" project-jdk-type="Android SDK">
-    <output url="file://$PROJECT_DIR$/out" />
-  </component>
-  <component name="SuppressABINotification">
-    <option name="modulesWithSuppressedNotConfigured">
-      <set>
-        <option value="print_plugin_android" />
-      </set>
-    </option>
-  </component>
+  <component name="ProjectRootManager" version="2" project-jdk-name="Android API 22 Platform" project-jdk-type="Android SDK" />
 </project>
