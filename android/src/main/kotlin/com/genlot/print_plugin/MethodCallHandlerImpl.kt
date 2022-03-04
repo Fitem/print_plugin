@@ -1,7 +1,10 @@
 package com.genlot.print_plugin
 
+import android.os.Bundle
 import android.os.RemoteException
 import com.szzt.sdk.device.aidl.IPrinterListener
+import com.szzt.sdk.device.barcode.CameraScan
+import com.szzt.sdk.device.barcode.CameraScan.CameraListener
 import com.szzt.sdk.device.printer.Printer
 import io.flutter.plugin.common.BinaryMessenger
 import io.flutter.plugin.common.MethodCall
@@ -13,7 +16,7 @@ import java.util.*
  * 插件方法监听
  * Created by LeiGuangwu on 2022/3/2.
  */
-class MethodCallHandlerImpl(var printLauncher: PrintLauncher) : MethodChannel.MethodCallHandler,
+class MethodCallHandlerImpl(var deviceLauncher: DeviceLauncher) : MethodChannel.MethodCallHandler,
     MethodCallHandlerListener {
 
     private lateinit var channel: MethodChannel
@@ -26,20 +29,41 @@ class MethodCallHandlerImpl(var printLauncher: PrintLauncher) : MethodChannel.Me
             "printTicket" -> {
                 printTicket(call, result)
             }
+            "scanner" -> {
+                scanner(call, result)
+            }
             else -> {
                 result.notImplemented()
             }
         }
     }
 
-
     override fun startService(binaryMessenger: BinaryMessenger) {
         channel = MethodChannel(binaryMessenger, "print_plugin")
         channel.setMethodCallHandler(this)
     }
 
+
     override fun stopService() {
         channel.setMethodCallHandler(null)
+    }
+
+    /**
+     * 扫码
+     */
+    private fun scanner(call: MethodCall, result: MethodChannel.Result) {
+        try {
+            val scan = deviceLauncher.getCameraScan()
+            val bundle = Bundle()
+            bundle.putInt(CameraScan.BARCODE_CAMERA_TYPE, CameraScan.CarmeraType.TYPE_BACK_FACING)
+            bundle.putBoolean(CameraScan.BARCODE_BEEP, true)
+            scan?.setConfig(bundle)
+            scan?.scan(30000, CameraListener { i, data ->
+                printCash(call, result)
+            })
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     /**
@@ -48,11 +72,11 @@ class MethodCallHandlerImpl(var printLauncher: PrintLauncher) : MethodChannel.Me
     private fun printTicket(call: MethodCall, result: MethodChannel.Result) {
         var betNumber: String = call.argument("betNumber") ?: "A123456"
         betNumber = if (betNumber.length < 7) "A123456" else betNumber
-        val printer = printLauncher.getPrinter()
+        val printer = deviceLauncher.getPrinter()
         printer?.open()
 
         // SINGAPORE
-        printer?.addStr("SINGAPORE\n", Printer.Font.FONT_2, false, Printer.Align.CENTER)
+//        printer?.addStr("SINGAPORE\n", Printer.Font.FONT_2, false, Printer.Align.CENTER)
         // SWEEP
         printer?.addStr("SWEEP\n", Printer.Font.FONT_3, false, Printer.Align.CENTER)
 
@@ -78,7 +102,7 @@ class MethodCallHandlerImpl(var printLauncher: PrintLauncher) : MethodChannel.Me
             Printer.Align.LEFT
         )
         printer?.addStr(
-            "27/07/18   10:00am   00888802-51\n",
+            "${SimpleDateFormat("E dd/MM/yyyy", Locale.US).format(Date())}   00888802-51\n",
             Printer.Font.FONT_2,
             false,
             Printer.Align.LEFT
@@ -92,6 +116,40 @@ class MethodCallHandlerImpl(var printLauncher: PrintLauncher) : MethodChannel.Me
 
         printer?.addQrCode("1231231231231")
         printer?.addStr("\n\n\n", Printer.Font.FONT_2, false, Printer.Align.LEFT)
+        printer?.start(object : IPrinterListener.Stub() {
+            @Throws(RemoteException::class)
+            override fun PrinterNotify(retCode: Int) {
+            }
+        })
+
+        printer?.close()
+        result.success(true)
+    }
+
+    /**
+     * 打印兑奖单
+     */
+    private fun printCash(call: MethodCall, result: MethodChannel.Result) {
+        val printer = deviceLauncher.getPrinter()
+        printer?.open()
+
+        // SINGAPORE
+//        printer?.addStr("SINGAPORE\n", Printer.Font.FONT_2, false, Printer.Align.CENTER)
+        // SWEEP
+        printer?.addStr("==Cash Voucher==\n", Printer.Font.FONT_3, false, Printer.Align.CENTER)
+
+        printer?.addStr("\n", Printer.Font.FONT_2, false, Printer.Align.LEFT)
+
+        // Amount
+        printer?.addStr("Amount: 100.00\n\n", Printer.Font.FONT_3, false, Printer.Align.CENTER)
+
+        // Issue
+        printer?.addStr("Issue: 02-6163\n", Printer.Font.FONT_3, false, Printer.Align.LEFT)
+        printer?.addStr("Sale StationID: 1001001\n", Printer.Font.FONT_3, false, Printer.Align.LEFT)
+        printer?.addStr("Cash StationID: 1001001\n", Printer.Font.FONT_3, false, Printer.Align.LEFT)
+        printer?.addStr("Cash Time: ${SimpleDateFormat("E dd/MM/yyyy\n", Locale.US).format(Date())}\n", Printer.Font.FONT_3, false, Printer.Align.LEFT)
+
+        printer?.addStr("\n\n", Printer.Font.FONT_2, false, Printer.Align.LEFT)
         printer?.start(object : IPrinterListener.Stub() {
             @Throws(RemoteException::class)
             override fun PrinterNotify(retCode: Int) {
