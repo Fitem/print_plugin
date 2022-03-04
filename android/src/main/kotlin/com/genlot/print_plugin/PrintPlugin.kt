@@ -19,7 +19,6 @@ class PrintPlugin : FlutterPlugin{
         deviceLauncher = DeviceLauncher(flutterPluginBinding.applicationContext)
         handler = MethodCallHandlerImpl(deviceLauncher)
         handler.startService(flutterPluginBinding.binaryMessenger)
-
     }
 
     override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {

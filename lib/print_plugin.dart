@@ -16,7 +16,7 @@ class PrintPlugin {
     });
   }
 
-  static Future<bool> scanner(String betNumber) async {
+  static Future<bool> scanner() async {
     return await _channel.invokeMethod("scanner");
   }
 }

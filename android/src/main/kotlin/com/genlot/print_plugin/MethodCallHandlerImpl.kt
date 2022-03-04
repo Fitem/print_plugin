@@ -96,13 +96,18 @@ class MethodCallHandlerImpl(var deviceLauncher: DeviceLauncher) : MethodChannel.
         printer?.addStr("PRICE:$3.00", Printer.Font.FONT_3, false, Printer.Align.LEFT)
         // DRAW:
         printer?.addStr(
-            "DRAW:${SimpleDateFormat("E dd/MM/yyyy    1000/18\n", Locale.US).format(Date())}",
+            "DRAW:${
+                SimpleDateFormat(
+                    "E dd/MM/yyyy    1000/18\n",
+                    Locale.US
+                ).format(Date(System.currentTimeMillis() + 24 * 60 * 60 * 1000))
+            }",
             Printer.Font.FONT_2,
             false,
             Printer.Align.LEFT
         )
         printer?.addStr(
-            "${SimpleDateFormat("E dd/MM/yyyy", Locale.US).format(Date())}   00888802-51\n",
+            "${SimpleDateFormat("E dd/MM/yyyy", Locale.US).format(Date())}     00888802-51\n",
             Printer.Font.FONT_2,
             false,
             Printer.Align.LEFT
@@ -141,13 +146,22 @@ class MethodCallHandlerImpl(var deviceLauncher: DeviceLauncher) : MethodChannel.
         printer?.addStr("\n", Printer.Font.FONT_2, false, Printer.Align.LEFT)
 
         // Amount
-        printer?.addStr("Amount: 100.00\n\n", Printer.Font.FONT_3, false, Printer.Align.CENTER)
+        printer?.addStr("Amount: 100.00\n", Printer.Font.FONT_2, false, Printer.Align.CENTER)
+
+        printer?.addStr("\n", Printer.Font.FONT_2, false, Printer.Align.LEFT)
 
         // Issue
-        printer?.addStr("Issue: 02-6163\n", Printer.Font.FONT_3, false, Printer.Align.LEFT)
-        printer?.addStr("Sale StationID: 1001001\n", Printer.Font.FONT_3, false, Printer.Align.LEFT)
-        printer?.addStr("Cash StationID: 1001001\n", Printer.Font.FONT_3, false, Printer.Align.LEFT)
-        printer?.addStr("Cash Time: ${SimpleDateFormat("E dd/MM/yyyy\n", Locale.US).format(Date())}\n", Printer.Font.FONT_3, false, Printer.Align.LEFT)
+        printer?.addStr("Issue: 02-6163\n", Printer.Font.FONT_2, false, Printer.Align.LEFT)
+        printer?.addStr("Sale StationID: 1001001\n", Printer.Font.FONT_2, false, Printer.Align.LEFT)
+        printer?.addStr("Cash StationID: 1001001\n", Printer.Font.FONT_2, false, Printer.Align.LEFT)
+        printer?.addStr(
+            "Cash Time: ${
+                SimpleDateFormat(
+                    "E dd/MM/yyyy\n",
+                    Locale.US
+                ).format(Date())
+            }\n", Printer.Font.FONT_2, false, Printer.Align.LEFT
+        )
 
         printer?.addStr("\n\n", Printer.Font.FONT_2, false, Printer.Align.LEFT)
         printer?.start(object : IPrinterListener.Stub() {
