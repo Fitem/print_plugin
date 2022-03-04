@@ -155,7 +155,7 @@ class MethodCallHandlerImpl(var deviceLauncher: DeviceLauncher) : MethodChannel.
         // Issue
         printer?.addStr("Issue: 02-6163\n", Printer.Font.FONT_2, false, Printer.Align.CENTER)
         printer?.addStr(
-            "Sale StationID: 4001001\n",
+            "Sale StationID: 1001001\n",
             Printer.Font.FONT_2,
             false,
             Printer.Align.CENTER
