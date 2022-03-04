@@ -143,27 +143,28 @@ class MethodCallHandlerImpl(var deviceLauncher: DeviceLauncher) : MethodChannel.
         // SWEEP
         printer?.addStr("==Cash Voucher==\n", Printer.Font.FONT_3, false, Printer.Align.CENTER)
 
-        printer?.addStr("\n", Printer.Font.FONT_2, false, Printer.Align.LEFT)
+        printer?.addStr("\n", Printer.Font.FONT_2, false, Printer.Align.CENTER)
 
         // Amount
-        printer?.addStr("Amount: 100.00\n", Printer.Font.FONT_2, false, Printer.Align.CENTER)
+        printer?.addStr("Amount: 100.00\n", Printer.Font.FONT_3, false, Printer.Align.CENTER)
 
-        printer?.addStr("\n", Printer.Font.FONT_2, false, Printer.Align.LEFT)
+        printer?.addStr("\n", Printer.Font.FONT_2, false, Printer.Align.CENTER)
 
         // Issue
-        printer?.addStr("Issue: 02-6163\n", Printer.Font.FONT_2, false, Printer.Align.LEFT)
-        printer?.addStr("Sale StationID: 1001001\n", Printer.Font.FONT_2, false, Printer.Align.LEFT)
-        printer?.addStr("Cash StationID: 1001001\n", Printer.Font.FONT_2, false, Printer.Align.LEFT)
+        printer?.addStr("Issue: 02-6163\n", Printer.Font.FONT_2, false, Printer.Align.CENTER)
+        printer?.addStr("Sale StationID: 4001001\n", Printer.Font.FONT_2, false, Printer.Align.CENTER)
+        printer?.addStr("SN: 733-39700993-118208\n", Printer.Font.FONT_2, false, Printer.Align.CENTER)
+        printer?.addStr("Cash StationID: 1001001\n", Printer.Font.FONT_2, false, Printer.Align.CENTER)
         printer?.addStr(
             "Cash Time: ${
                 SimpleDateFormat(
                     "E dd/MM/yyyy\n",
                     Locale.US
                 ).format(Date())
-            }\n", Printer.Font.FONT_2, false, Printer.Align.LEFT
+            }\n", Printer.Font.FONT_2, false, Printer.Align.CENTER
         )
 
-        printer?.addStr("\n\n", Printer.Font.FONT_2, false, Printer.Align.LEFT)
+        printer?.addStr("\n\n", Printer.Font.FONT_3, false, Printer.Align.CENTER)
         printer?.start(object : IPrinterListener.Stub() {
             @Throws(RemoteException::class)
             override fun PrinterNotify(retCode: Int) {
