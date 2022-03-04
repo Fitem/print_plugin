@@ -59,7 +59,9 @@ class MethodCallHandlerImpl(var deviceLauncher: DeviceLauncher) : MethodChannel.
             bundle.putBoolean(CameraScan.BARCODE_BEEP, true)
             scan?.setConfig(bundle)
             scan?.scan(30000, CameraListener { i, data ->
-                printCash(call, result)
+                if (i >= 0) {
+                    printCash(call, result)
+                }
             })
         } catch (e: Exception) {
             e.printStackTrace()
@@ -152,9 +154,24 @@ class MethodCallHandlerImpl(var deviceLauncher: DeviceLauncher) : MethodChannel.
 
         // Issue
         printer?.addStr("Issue: 02-6163\n", Printer.Font.FONT_2, false, Printer.Align.CENTER)
-        printer?.addStr("Sale StationID: 4001001\n", Printer.Font.FONT_2, false, Printer.Align.CENTER)
-        printer?.addStr("SN: 733-39700993-118208\n", Printer.Font.FONT_2, false, Printer.Align.CENTER)
-        printer?.addStr("Cash StationID: 1001001\n", Printer.Font.FONT_2, false, Printer.Align.CENTER)
+        printer?.addStr(
+            "Sale StationID: 4001001\n",
+            Printer.Font.FONT_2,
+            false,
+            Printer.Align.CENTER
+        )
+        printer?.addStr(
+            "SN: 733-39700993-118208\n",
+            Printer.Font.FONT_2,
+            false,
+            Printer.Align.CENTER
+        )
+        printer?.addStr(
+            "Cash StationID: 1001001\n",
+            Printer.Font.FONT_2,
+            false,
+            Printer.Align.CENTER
+        )
         printer?.addStr(
             "Cash Time: ${
                 SimpleDateFormat(
